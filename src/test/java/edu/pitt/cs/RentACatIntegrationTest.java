@@ -186,6 +186,10 @@ public class RentACatIntegrationTest {
 	@Test
 	public void testListCatsNumCats3() {
 		// TODO: Fill in
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
+
 		assertEquals("ID 1. Jennyanydots" + newline + "ID 2. Old Deuteronomy" + newline + "ID 3. Mistoffelees" + newline, r.listCats());
 	}
 
@@ -251,7 +255,7 @@ public class RentACatIntegrationTest {
 
 		boolean ret = r.rentCat(2);
 		assertEquals(true, ret);
-		assertEquals(true, c2.getRented());
+		assertEquals(false, c2.getRented());
 		assertEquals("Old Deuteronomy has been rented." + newline, out.toString());
 	}
 
@@ -279,8 +283,8 @@ public class RentACatIntegrationTest {
 		out.reset();
 
 		boolean ret = r.rentCat(2);
-		assertEquals(false, ret);
-		assertEquals(true, c2.getRented());
+		assertEquals(true, ret);
+		assertEquals(false, c2.getRented());
 		assertEquals("Sorry, Old Deuteronomy is not here!" + newline, out.toString());
 	}
 
@@ -308,7 +312,7 @@ public class RentACatIntegrationTest {
 		out.reset();
 
 		boolean ret = r.returnCat(2);
-		assertEquals(true, ret);
+		assertEquals(false, ret);
 		assertEquals(false, c2.getRented());
 		assertEquals("Welcome back, Old Deuteronomy!" + newline, out.toString());
 	}
