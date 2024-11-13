@@ -121,7 +121,7 @@ public class CatUnitTest {
 		// TODO: Fill in
 		c.rentCat();
 		boolean ret = c.getRented();
-		assertEquals(false, ret);
+		assertEquals(true, ret);
 	}
 
 	/**
