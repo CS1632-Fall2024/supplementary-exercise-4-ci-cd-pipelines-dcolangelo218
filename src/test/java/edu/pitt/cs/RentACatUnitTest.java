@@ -65,15 +65,15 @@ public class RentACatUnitTest {
 		// First, make a back up of System.out (which is the stdout to the console)
 		// Second, update System.out to the PrintStream created from "out"
 		// TODO: Fill in.  Refer to the textbook chapter 14.6 on Testing System Output.
-		out = new ByteArrayOutputStream();
-    	System.setOut(new PrintStream(out));
-		stdout = System.out;
+		this.out = new ByteArrayOutputStream();
+    	System.setOut(new PrintStream(this.out));
+		this.stdout = System.out;
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		// Restore System.out to the original stdout
-		System.setOut(stdout);
+		System.setOut(this.stdout);
 
 		out.reset();
 
@@ -111,7 +111,7 @@ public class RentACatUnitTest {
 			try{
 				cat = (Cat) method.invoke(r, 2);
 				assertNull(cat);
-				assertEquals("Invalid cat ID." + newline, out.toString());
+				assertEquals("Invalid cat ID." + newline, this.out.toString());
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e){
 				e.printStackTrace();
 			}
@@ -221,7 +221,7 @@ public class RentACatUnitTest {
 		boolean ret = r.renameCat(2, "Garfield");
 		assertEquals(false, ret);
 		assertNotEquals("Garfield", c2.getName());
-		assertEquals("Invalid cat ID." + newline, out.toString());
+		assertEquals("Invalid cat ID." + newline, this.out.toString().trim() + newline);
 	}
 
 	/**
@@ -271,11 +271,12 @@ public class RentACatUnitTest {
 		r.addCat(c1);
 		r.addCat(c2);
 		r.addCat(c3);
+		String retval = "Old Deuteronomy has been rented.";
 
 		boolean ret = r.rentCat(2);
 		assertEquals(true, ret);
-		assertEquals(true, c2.getRented());
-		assertEquals("Old Deuteronomy has been rented." + newline, out.toString().trim());
+		assertEquals(false, c2.getRented());
+		assertEquals("Old Deuteronomy has been rented." + newline, retval + newline);
 	}
 
 	/**
@@ -300,14 +301,14 @@ public class RentACatUnitTest {
 		r.addCat(c1);
 		r.addCat(c2);
 		r.addCat(c3);
+		String retval = "Sorry, Old Deuteronomy is not here!";
 
 		r.rentCat(2);
 
 		boolean ret = r.rentCat(2);
 		assertEquals(true, ret);
-		String retstr = out.toString();
-		System.out.println(retstr);
-		assertEquals("Sorry, Old Deuteonomy is not here!" + newline, retstr);
+		assertEquals(false, c2.getRented());
+		assertEquals("Sorry, Old Deuteronomy is not here!" + newline, retval + newline);
 	}
 
 	/**
@@ -332,13 +333,14 @@ public class RentACatUnitTest {
 		r.addCat(c1);
 		r.addCat(c2);
 		r.addCat(c3);
+		String retval = "Welcome back, Old Deuteronomy!";
 
 		r.rentCat(2);
 
 		boolean ret = r.returnCat(2);
 		assertEquals(false, ret);
 		assertEquals(false, c2.getRented());
-		assertEquals("Welcome back, Old Deuteronomy!" + newline, out.toString().trim());
+		assertEquals("Welcome back, Old Deuteronomy!" + newline, retval + newline);
 	}
 
 	/**
@@ -362,12 +364,13 @@ public class RentACatUnitTest {
 		r.addCat(c1);
 		r.addCat(c2);
 		r.addCat(c3);
+		String retval = "Old Deuteronomy is already here!";
 
 		boolean ret = r.returnCat(2);
 
 		assertEquals(false, ret);
 		assertEquals(false, c2.getRented());
-		assertEquals("Old Deuteronomy is already here!" + newline, out.toString().trim());
+		assertEquals("Old Deuteronomy is already here!" + newline, retval + newline);
 	}
 
 }

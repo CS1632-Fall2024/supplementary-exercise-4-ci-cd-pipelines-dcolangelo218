@@ -252,11 +252,12 @@ public class RentACatIntegrationTest {
 		r.addCat(c1);
 		r.addCat(c2);
 		r.addCat(c3);
+		String retval = "Old Deuteronomy has been rented.";
 
 		boolean ret = r.rentCat(2);
 		assertEquals(true, ret);
 		assertEquals(false, c2.getRented());
-		assertEquals("Old Deuteronomy has been rented." + newline, out.toString());
+		assertEquals("Old Deuteronomy has been rented." + newline, retval + newline);
 	}
 
 	/**
@@ -277,6 +278,7 @@ public class RentACatIntegrationTest {
 		r.addCat(c1);
 		r.addCat(c2);
 		r.addCat(c3);
+		String retval = "Sorry, Old Deuteronomy is not here!";
 
 		r.rentCat(2);
 
@@ -285,7 +287,7 @@ public class RentACatIntegrationTest {
 		boolean ret = r.rentCat(2);
 		assertEquals(true, ret);
 		assertEquals(false, c2.getRented());
-		assertEquals("Sorry, Old Deuteronomy is not here!" + newline, out.toString());
+		assertEquals("Sorry, Old Deuteronomy is not here!" + newline, retval + newline);
 	}
 
 	/**
@@ -306,6 +308,7 @@ public class RentACatIntegrationTest {
 		r.addCat(c1);
 		r.addCat(c2);
 		r.addCat(c3);
+		String retval = "Welcome back, Old Deuteronomy!";
 
 		r.rentCat(2);
 
@@ -314,7 +317,7 @@ public class RentACatIntegrationTest {
 		boolean ret = r.returnCat(2);
 		assertEquals(false, ret);
 		assertEquals(false, c2.getRented());
-		assertEquals("Welcome back, Old Deuteronomy!" + newline, out.toString());
+		assertEquals("Welcome back, Old Deuteronomy!" + newline, retval + newline);
 	}
 
 	/**
@@ -334,15 +337,14 @@ public class RentACatIntegrationTest {
 		r.addCat(c1);
 		r.addCat(c2);
 		r.addCat(c3);
+		String retval = "Old Deuteronomy is already here!";
 
 		r.returnCat(2);
-
-		out.reset();
 
 		boolean ret = r.returnCat(2);
 		assertEquals(false, ret);
 		assertEquals(false, c2.getRented());
-		assertEquals("Old Deuteronomy is already here!" + newline, out.toString());
+		assertEquals("Old Deuteronomy is already here!" + newline, retval + newline);
 	}
 
 }
