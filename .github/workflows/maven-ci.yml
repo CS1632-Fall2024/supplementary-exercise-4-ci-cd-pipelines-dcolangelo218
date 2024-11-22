@@ -1,4 +1,4 @@
-name: Maven CI
+xname: Maven CI
 
 # Triggers manually or on push or pull request on the main branch
 # (in other words, on a code integration event.)
@@ -37,12 +37,6 @@ jobs:
 
     - name: Test with Maven
       run: mvn test
-      
-    - name: Cache build
-      uses: actions/cache@v3
-      with:
-        key: cached-build-${{github.sha}}
-        path: .
 
     # https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload jacoco results as artifact
@@ -50,6 +44,12 @@ jobs:
       with:
         name: Jacoco coverage results
         path: target/site/jacoco
+
+    - name: Cache build
+      uses: actions/cache@v3
+      with:
+        key: cached-build-${{github.sha}}
+        path: .
 
   # Uploads dependency graph to GitHub to receive Dependabot alerts 
   update_dependence_graph:
@@ -67,6 +67,7 @@ jobs:
       with:
         key: cached-build-${{github.sha}}
         path: .
+        
     # https://github.com/marketplace/actions/maven-dependency-tree-dependency-submission
     - name: Update dependency graph
       uses: advanced-security/maven-dependency-submission-action@v3
